@@ -3,1170 +3,613 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Eastell and Co — Sunshine Coast's prestige real estate agents. We always go the extra mile. Outstanding results across Coolum Beach, Peregian Beach, Sunshine Beach and beyond.">
+  <meta name="description" content="Eastell and Co — Sunshine Coast's prestige real estate agents. We always go the extra mile.">
   <meta name="theme-color" content="#1a1a1a">
   <title>Eastell and Co | Sunshine Coast Prestige Real Estate</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --bg:#EFEBE6;--bg-alt:#F7F4F0;--bg-white:#fff;--dark:#141414;--text:#141414;
+      --muted:#7A7470;--subtle:#B5AFA9;--border:rgba(20,20,20,0.08);
+      --sans:'Outfit',system-ui,sans-serif;--serif:'Instrument Serif',Georgia,serif;
+      --nav-h:70px;--ease:cubic-bezier(.25,1,.5,1);--ease2:cubic-bezier(.76,0,.24,1);
+    }
+    html{scroll-behavior:smooth}
+    body{font-family:var(--sans);background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+    a{color:inherit;text-decoration:none}img{display:block;max-width:100%;height:auto}
+    button{font:inherit;cursor:pointer;border:none;background:none}ul{list-style:none}
+    ::selection{background:var(--dark);color:var(--bg)}
 
-    :root {
-      --bg: #F4EDE7;
-      --bg-light: #FAF6F2;
-      --bg-dark: #1A1A1A;
-      --bg-card: #FFFFFF;
-      --text: #1A1A1A;
-      --text-light: #FFFFFF;
-      --text-muted: #6B6560;
-      --text-subtle: #A59D96;
-      --accent: #1A1A1A;
-      --border: rgba(26, 26, 26, 0.1);
-      --border-dark: rgba(255,255,255,0.15);
-      --sans: 'Outfit', sans-serif;
-      --serif: 'Playfair Display', Georgia, serif;
-      --nav-h: 72px;
-      --ease: cubic-bezier(0.25, 1, 0.5, 1);
-    }
+    /* ===== NAV ===== */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1.25rem,4vw,2.5rem);transition:background .4s,backdrop-filter .4s,color .3s}
+    .nav--hero{color:#fff}
+    .nav--scrolled{background:rgba(239,235,230,.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);color:var(--text);border-bottom:1px solid var(--border)}
+    .nav__logo{font-family:var(--sans);font-weight:800;font-size:clamp(1rem,1.6vw,1.3rem);letter-spacing:.22em;text-transform:uppercase}
+    .nav__right{display:flex;align-items:center;gap:clamp(1.2rem,2.5vw,2.2rem)}
+    .nav__link{font-size:.65rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;transition:opacity .3s;white-space:nowrap}
+    .nav__link:hover{opacity:.5}
+    .nav__menu-btn{width:26px;display:flex;flex-direction:column;gap:5px;padding:3px 0}
+    .nav__menu-btn span{display:block;width:100%;height:1.5px;background:currentColor;transition:transform .3s,opacity .3s}
+    .nav__menu-btn--active span:nth-child(1){transform:rotate(45deg) translate(4.5px,4.5px)}
+    .nav__menu-btn--active span:nth-child(2){opacity:0}
+    .nav__menu-btn--active span:nth-child(3){transform:rotate(-45deg) translate(4.5px,-4.5px)}
+    @media(max-width:860px){.nav__link{display:none}}
 
-    html { scroll-behavior: smooth; }
+    /* Fullscreen menu */
+    .fs-menu{position:fixed;inset:0;z-index:190;background:var(--bg);display:flex;flex-direction:column;padding:calc(var(--nav-h) + 2rem) clamp(1.25rem,4vw,2.5rem) 2rem;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+    .fs-menu--open{opacity:1;visibility:visible}
+    .fs-menu__top{flex:1;display:flex;flex-direction:column;justify-content:center;gap:0}
+    .fs-menu__link{font-family:var(--serif);font-size:clamp(2.5rem,7vw,5rem);font-weight:400;line-height:1.15;transition:opacity .3s}
+    .fs-menu__link:hover{opacity:.4}
+    .fs-menu__bottom{padding-top:2rem;border-top:1px solid var(--border);display:flex;gap:2rem;flex-wrap:wrap}
+    .fs-menu__small{font-size:.65rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
 
-    body {
-      font-family: var(--sans);
-      background: var(--bg);
-      color: var(--text);
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-    }
+    /* ===== HERO ===== */
+    .hero{position:relative;height:100vh;min-height:650px;overflow:hidden}
+    .hero__img{width:100%;height:100%;object-fit:cover}
+    .hero__grad{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.1) 0%,rgba(0,0,0,.55) 100%)}
+    .hero__content{position:absolute;bottom:0;left:0;right:0;padding:clamp(2rem,5vw,4.5rem) clamp(1.25rem,4vw,2.5rem)}
+    .hero__h1{font-family:var(--serif);font-weight:400;font-size:clamp(2.8rem,6.5vw,5.5rem);line-height:1.05;color:#fff;max-width:850px}
+    .hero__sub{font-family:var(--serif);font-size:clamp(1rem,1.8vw,1.35rem);font-weight:400;color:rgba(255,255,255,.7);margin-top:1rem;max-width:650px;line-height:1.45}
 
-    a { color: inherit; text-decoration: none; }
-    img { display: block; max-width: 100%; height: auto; }
-    button { font: inherit; cursor: pointer; border: none; background: none; }
-    ul { list-style: none; }
+    /* ===== INTRO ===== */
+    .intro{max-width:1400px;margin:0 auto;padding:clamp(5rem,10vh,8rem) clamp(1.25rem,4vw,2.5rem);display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,6rem);align-items:start}
+    .intro__labels{display:flex;gap:3rem;margin-bottom:2.5rem}
+    .intro__label{font-size:.6rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+    .intro__text{font-size:.95rem;line-height:1.8;color:var(--muted);max-width:480px;margin-bottom:2rem}
+    .intro__link{font-size:.65rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;display:inline-flex;align-items:center;gap:.6rem;transition:gap .3s}
+    .intro__link:hover{gap:1rem}
+    .intro__img-wrap{position:relative}
+    .intro__img{width:100%;max-width:480px;margin-left:auto;object-fit:cover}
+    @media(max-width:860px){.intro{grid-template-columns:1fr}.intro__img-wrap{order:-1}}
 
-    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
-    ::selection { background: var(--text); color: var(--bg); }
+    /* ===== PRIDE ===== */
+    .pride{padding:clamp(3rem,6vh,5rem) clamp(1.25rem,4vw,2.5rem);text-align:center;max-width:950px;margin:0 auto}
+    .pride__h{font-family:var(--serif);font-size:clamp(1.35rem,2.8vw,2.2rem);font-weight:400;line-height:1.4}
 
-    /* ============ NAV ============ */
-    .nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      height: var(--nav-h);
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 clamp(1.25rem, 4vw, 3rem);
-      transition: background 0.4s, backdrop-filter 0.4s, color 0.4s;
-    }
-    .nav--scrolled {
-      background: rgba(244, 237, 231, 0.92);
-      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav--hero { color: var(--text-light); }
-    .nav__logo {
-      font-weight: 700; font-size: 1.35rem;
-      letter-spacing: 0.18em; text-transform: uppercase;
-    }
-    .nav__links {
-      display: flex; align-items: center; gap: clamp(1.5rem, 3vw, 2.5rem);
-    }
-    .nav__link {
-      font-size: 0.7rem; font-weight: 600;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      transition: opacity 0.3s;
-    }
-    .nav__link:hover { opacity: 0.6; }
-    .nav__hamburger {
-      display: none; flex-direction: column; gap: 6px;
-      width: 28px; padding: 4px 0;
-    }
-    .nav__hamburger span {
-      display: block; width: 100%; height: 1.5px;
-      background: currentColor; transition: transform 0.3s, opacity 0.3s;
-    }
-    .nav__hamburger--active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-    .nav__hamburger--active span:nth-child(2) { opacity: 0; }
-    .nav__hamburger--active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+    /* ===== HORIZONTAL CARDS ===== */
+    .hcards{padding:clamp(2rem,4vh,3rem) 0;overflow:hidden}
+    .hcards__track{display:flex;gap:clamp(.6rem,1vw,.9rem);padding:0 clamp(1.25rem,4vw,2.5rem);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none}
+    .hcards__track::-webkit-scrollbar{display:none}
+    .hcard{flex:0 0 clamp(220px,22vw,300px);scroll-snap-align:start;position:relative;overflow:hidden;cursor:pointer}
+    .hcard__img{width:100%;aspect-ratio:3/4;object-fit:cover;transition:transform .6s var(--ease);filter:brightness(.82)}
+    .hcard:hover .hcard__img{transform:scale(1.04);filter:brightness(.92)}
+    .hcard__label{position:absolute;bottom:0;left:0;right:0;padding:1.2rem 1.4rem;background:linear-gradient(0deg,rgba(0,0,0,.65) 0%,transparent 100%);color:#fff;font-size:.65rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase}
 
-    @media (max-width: 768px) {
-      .nav__links { display: none; }
-      .nav__hamburger { display: flex; }
-    }
+    /* ===== RESULTS SLIDER ===== */
+    .rslider{position:relative;height:85vh;min-height:500px;overflow:hidden;background:#000}
+    .rslide{position:absolute;inset:0;opacity:0;transition:opacity .8s var(--ease2);pointer-events:none}
+    .rslide--active{opacity:1;pointer-events:auto}
+    .rslide__img{width:100%;height:100%;object-fit:cover}
+    .rslide__grad{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.55) 0%,transparent 45%)}
+    .rslide__info{position:absolute;bottom:clamp(1.5rem,4vw,2.5rem);left:clamp(1.25rem,4vw,2.5rem);color:#fff}
+    .rslide__address{font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase}
+    .rslide__suburb{font-size:.6rem;font-weight:400;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-top:.15rem}
+    .rslide__badges{position:absolute;bottom:clamp(1.5rem,4vw,2.5rem);right:clamp(1.25rem,4vw,2.5rem);display:flex;gap:.6rem;color:#fff}
+    .rslide__badge{font-size:.55rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;padding:.4rem .85rem;border:1px solid rgba(255,255,255,.45)}
+    .rslider__counter{position:absolute;top:auto;bottom:calc(clamp(1.5rem,4vw,2.5rem) + 3rem);left:clamp(1.25rem,4vw,2.5rem);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.45)}
+    .rslider__nav{position:absolute;bottom:calc(clamp(1.5rem,4vw,2.5rem) + 3rem);right:clamp(1.25rem,4vw,2.5rem);display:flex;gap:1.5rem;align-items:center}
+    .rslider__btn{font-size:.55rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5);display:flex;align-items:center;gap:.4rem;transition:color .3s}
+    .rslider__btn:hover{color:#fff}
 
-    /* Mobile Menu */
-    .mob-menu {
-      position: fixed; inset: 0; z-index: 99;
-      background: var(--bg);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 2rem;
-      opacity: 0; visibility: hidden; transition: opacity 0.4s, visibility 0.4s;
-    }
-    .mob-menu--open { opacity: 1; visibility: visible; }
-    .mob-menu__link {
-      font-size: 1.5rem; font-weight: 600;
-      letter-spacing: 0.15em; text-transform: uppercase;
-      transition: opacity 0.3s;
-    }
-    .mob-menu__link:hover { opacity: 0.5; }
+    /* ===== GLOBAL / OFFICES ===== */
+    .global{max-width:1400px;margin:0 auto;padding:clamp(5rem,10vh,8rem) clamp(1.25rem,4vw,2.5rem);display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,6vw,6rem);align-items:start}
+    .global__h{font-family:var(--serif);font-size:clamp(1.75rem,3.5vw,2.75rem);font-weight:400;line-height:1.2;margin-bottom:1.5rem}
+    .global__text{font-size:.95rem;line-height:1.8;color:var(--muted);max-width:480px}
+    .global__offices{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+    .global__office-title{font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.6rem}
+    .global__office-item{font-size:.85rem;font-weight:300;color:var(--muted);padding:.15rem 0;transition:color .3s;display:block}
+    .global__office-item:hover{color:var(--text)}
+    @media(max-width:860px){.global{grid-template-columns:1fr}}
 
-    /* ============ HERO ============ */
-    .hero {
-      position: relative; height: 100vh; min-height: 600px;
-      overflow: hidden;
-    }
-    .hero__img {
-      width: 100%; height: 100%; object-fit: cover;
-    }
-    .hero__overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.45) 100%);
-    }
-    .hero__content {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      padding: clamp(2rem, 6vw, 5rem) clamp(1.25rem, 4vw, 3rem);
-      color: var(--text-light);
-    }
-    .hero__tagline {
-      font-family: var(--serif); font-style: italic;
-      font-size: clamp(2.5rem, 5.5vw, 5rem);
-      font-weight: 400; line-height: 1.1;
-      max-width: 750px;
-      margin-bottom: 2rem;
-    }
-    .hero__cta {
-      display: inline-flex; align-items: center; gap: 0.75rem;
-      font-size: 0.7rem; font-weight: 600;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--text-light);
-      padding: 0.9rem 2rem;
-      border: 1.5px solid rgba(255,255,255,0.5);
-      transition: background 0.3s, border-color 0.3s;
-    }
-    .hero__cta:hover { background: rgba(255,255,255,0.15); border-color: #fff; }
-    .hero__cta-arrow { transition: transform 0.3s; }
-    .hero__cta:hover .hero__cta-arrow { transform: translateX(4px); }
+    /* ===== PROPERTY GRID ===== */
+    .pgrid{max-width:1400px;margin:0 auto;padding:clamp(4rem,8vh,6rem) clamp(1.25rem,4vw,2.5rem)}
+    .pgrid__header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
+    .pgrid__h{font-family:var(--serif);font-size:clamp(1.75rem,3.5vw,2.75rem);font-weight:400}
+    .pgrid__tabs{display:flex;gap:0;border:1px solid var(--border);margin-bottom:2rem}
+    .pgrid__tab{padding:.65rem 1.5rem;font-size:.6rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);transition:background .3s,color .3s;border-right:1px solid var(--border)}
+    .pgrid__tab:last-child{border-right:none}
+    .pgrid__tab--active{background:var(--dark);color:#fff}
+    .pgrid__tab:hover:not(.pgrid__tab--active){background:rgba(0,0,0,.04)}
+    .pgrid__featured{font-size:.6rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:1.5rem}
+    .pgrid__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+    .pcard{position:relative;display:block}
+    .pcard__img-wrap{position:relative;overflow:hidden;margin-bottom:.8rem}
+    .pcard__img{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform .6s var(--ease)}
+    .pcard:hover .pcard__img{transform:scale(1.03)}
+    .pcard__specs{position:absolute;bottom:.6rem;left:.6rem;display:flex;gap:.3rem}
+    .pcard__spec{background:rgba(255,255,255,.92);backdrop-filter:blur(4px);padding:.2rem .45rem;font-size:.55rem;font-weight:600;letter-spacing:.06em}
+    .pcard__address{font-size:.65rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;line-height:1.35}
+    .pcard__suburb{font-size:.6rem;font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-top:.1rem}
+    .pgrid__viewall{font-size:.65rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;display:inline-flex;align-items:center;gap:.6rem;margin-top:2rem;transition:gap .3s}
+    .pgrid__viewall:hover{gap:1rem}
+    @media(max-width:1024px){.pgrid__grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:480px){.pgrid__grid{grid-template-columns:1fr}}
 
-    /* ============ INTRO ============ */
-    .intro {
-      padding: clamp(5rem, 10vh, 8rem) clamp(1.25rem, 4vw, 3rem);
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: clamp(3rem, 6vw, 6rem);
-      max-width: 1400px; margin: 0 auto;
-      align-items: center;
-    }
-    .intro__label {
-      font-size: 0.7rem; font-weight: 600;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 1.5rem;
-    }
-    .intro__headline {
-      font-family: var(--serif); font-style: italic;
-      font-size: clamp(1.75rem, 3.5vw, 3rem);
-      font-weight: 400; line-height: 1.2;
-      margin-bottom: 2rem;
-    }
-    .intro__text {
-      font-size: 0.95rem; line-height: 1.75;
-      color: var(--text-muted);
-      max-width: 520px;
-      margin-bottom: 2rem;
-    }
-    .intro__link {
-      font-size: 0.7rem; font-weight: 600;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      display: inline-flex; align-items: center; gap: 0.75rem;
-      transition: gap 0.3s;
-    }
-    .intro__link:hover { gap: 1rem; }
-    .intro__img-wrap {
-      position: relative; overflow: hidden;
-    }
-    .intro__img {
-      width: 100%; aspect-ratio: 4/5; object-fit: cover;
-    }
-    @media (max-width: 768px) {
-      .intro { grid-template-columns: 1fr; }
-      .intro__img-wrap { order: -1; }
-    }
+    /* ===== DIGITAL FIRST ===== */
+    .digfirst{position:relative;min-height:70vh;display:flex;align-items:center;overflow:hidden}
+    .digfirst__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.4)}
+    .digfirst__content{position:relative;z-index:1;padding:clamp(3rem,6vw,5rem) clamp(1.25rem,4vw,2.5rem);color:#fff;max-width:700px}
+    .digfirst__label{font-size:.6rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:1.2rem}
+    .digfirst__h{font-family:var(--serif);font-size:clamp(1.5rem,3vw,2.5rem);font-weight:400;line-height:1.3;margin-bottom:1.2rem}
+    .digfirst__text{font-size:.95rem;line-height:1.8;color:rgba(255,255,255,.65);max-width:520px}
 
-    /* ============ PRIDE STATEMENT ============ */
-    .pride {
-      padding: clamp(4rem, 8vh, 6rem) clamp(1.25rem, 4vw, 3rem);
-      text-align: center;
-      max-width: 900px; margin: 0 auto;
-    }
-    .pride__heading {
-      font-family: var(--serif); font-style: italic;
-      font-size: clamp(1.5rem, 3vw, 2.25rem);
-      font-weight: 400; line-height: 1.35;
-    }
+    /* ===== JOIN / CTA ===== */
+    .joinsec{position:relative;min-height:90vh;overflow:hidden;display:flex;align-items:flex-end}
+    .joinsec__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+    .joinsec__grad{position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.6) 0%,transparent 50%)}
+    .joinsec__content{position:relative;z-index:1;padding:clamp(2rem,5vw,4rem) clamp(1.25rem,4vw,2.5rem);color:#fff;max-width:600px}
+    .joinsec__text{font-size:.95rem;line-height:1.8;color:rgba(255,255,255,.7);margin-bottom:1.5rem}
+    .joinsec__btn{font-size:.65rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;padding:.85rem 2rem;border:1.5px solid rgba(255,255,255,.5);color:#fff;display:inline-flex;align-items:center;gap:.6rem;transition:background .3s,border-color .3s}
+    .joinsec__btn:hover{background:rgba(255,255,255,.12);border-color:#fff}
 
-    /* ============ CATEGORY CAROUSEL ============ */
-    .categories {
-      padding: clamp(3rem, 5vh, 4rem) 0;
-      overflow: hidden;
-    }
-    .categories__track {
-      display: flex; gap: 1rem;
-      padding: 0 clamp(1.25rem, 4vw, 3rem);
-      overflow-x: auto; scroll-snap-type: x mandatory;
-      scrollbar-width: none; -ms-overflow-style: none;
-    }
-    .categories__track::-webkit-scrollbar { display: none; }
-    .cat-card {
-      flex: 0 0 280px; scroll-snap-align: start;
-      position: relative; overflow: hidden;
-      border-radius: 0;
-    }
-    .cat-card__img {
-      width: 100%; aspect-ratio: 3/4; object-fit: cover;
-      transition: transform 0.6s var(--ease);
-      filter: brightness(0.85);
-    }
-    .cat-card:hover .cat-card__img { transform: scale(1.04); filter: brightness(0.95); }
-    .cat-card__label {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      padding: 1.25rem 1.5rem;
-      background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, transparent 100%);
-      color: var(--text-light);
-      font-size: 0.7rem; font-weight: 600;
-      letter-spacing: 0.18em; text-transform: uppercase;
-    }
+    /* ===== STATS ===== */
+    .advant{background:var(--bg-alt);padding:clamp(5rem,10vh,7rem) clamp(1.25rem,4vw,2.5rem)}
+    .advant__inner{max-width:1200px;margin:0 auto}
+    .advant__h{font-family:var(--serif);font-size:clamp(1.5rem,3vw,2.25rem);font-weight:400;line-height:1.3;margin-bottom:clamp(2rem,4vh,3.5rem);max-width:700px}
+    .advant__grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem}
+    .advant__stat{}
+    .advant__num{font-family:var(--serif);font-size:clamp(2rem,4.5vw,3.2rem);font-weight:400;line-height:1}
+    .advant__label{font-size:.55rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:.4rem}
+    .advant__text{font-size:.9rem;line-height:1.8;color:var(--muted);margin-top:clamp(2rem,4vh,3rem);max-width:800px}
+    @media(max-width:600px){.advant__grid{grid-template-columns:repeat(2,1fr);gap:2rem 1.5rem}}
 
-    /* ============ RESULTS CAROUSEL ============ */
-    .results {
-      position: relative; overflow: hidden;
-    }
-    .results__slide {
-      position: relative; height: 85vh; min-height: 500px;
-      display: none;
-    }
-    .results__slide--active { display: block; }
-    .results__img {
-      width: 100%; height: 100%; object-fit: cover;
-    }
-    .results__overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(0deg, rgba(0,0,0,0.5) 0%, transparent 40%);
-    }
-    .results__info {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      padding: clamp(1.5rem, 4vw, 3rem);
-      color: var(--text-light);
-      display: flex; justify-content: space-between; align-items: flex-end;
-    }
-    .results__address {
-      font-size: 0.7rem; font-weight: 600;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      margin-bottom: 0.25rem;
-    }
-    .results__suburb {
-      font-size: 0.65rem; font-weight: 400;
-      letter-spacing: 0.12em; text-transform: uppercase;
-      color: rgba(255,255,255,0.7);
-    }
-    .results__badges { display: flex; gap: 0.75rem; align-items: center; }
-    .results__badge {
-      font-size: 0.6rem; font-weight: 600;
-      letter-spacing: 0.15em; text-transform: uppercase;
-      padding: 0.4rem 0.9rem;
-      border: 1px solid rgba(255,255,255,0.5);
-    }
-    .results__counter {
-      position: absolute; bottom: clamp(1.5rem, 4vw, 3rem); left: clamp(1.25rem, 4vw, 3rem);
-      font-size: 0.65rem; font-weight: 400; letter-spacing: 0.1em;
-      color: rgba(255,255,255,0.6);
-      bottom: auto; top: auto;
-    }
-    .results__nav {
-      position: absolute; bottom: clamp(1.5rem, 4vw, 3rem); right: clamp(1.25rem, 4vw, 3rem);
-      display: flex; gap: 1rem; align-items: center;
-      top: auto;
-    }
-    .results__nav-btn {
-      font-size: 0.65rem; font-weight: 600;
-      letter-spacing: 0.15em; text-transform: uppercase;
-      color: rgba(255,255,255,0.6);
-      transition: color 0.3s; display: flex; align-items: center; gap: 0.5rem;
-    }
-    .results__nav-btn:hover { color: #fff; }
-    .results__counter-wrap {
-      position: absolute; left: clamp(1.25rem, 4vw, 3rem);
-      bottom: calc(clamp(1.5rem, 4vw, 3rem) + 3.5rem);
-      color: rgba(255,255,255,0.5);
-      font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;
-    }
+    /* ===== PRESS ===== */
+    .press{padding:clamp(3rem,5vh,4rem) clamp(1.25rem,4vw,2.5rem);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+    .press__h{font-family:var(--serif);font-size:clamp(1.25rem,2vw,1.5rem);font-weight:400;margin-bottom:1.5rem}
+    .press__logos{display:flex;gap:clamp(2rem,4vw,3.5rem);align-items:center;overflow-x:auto;scrollbar-width:none;padding-bottom:.5rem}
+    .press__logos::-webkit-scrollbar{display:none}
+    .press__logo{font-family:var(--sans);font-weight:700;font-size:clamp(.75rem,1.2vw,1rem);letter-spacing:.08em;text-transform:uppercase;color:var(--subtle);white-space:nowrap;flex-shrink:0;transition:color .3s}
+    .press__logo:hover{color:var(--text)}
 
-    /* ============ STATS ============ */
-    .stats {
-      background: var(--bg-light);
-      padding: clamp(5rem, 10vh, 8rem) clamp(1.25rem, 4vw, 3rem);
-    }
-    .stats__inner {
-      max-width: 1200px; margin: 0 auto;
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: clamp(3rem, 6vw, 6rem);
-      align-items: center;
-    }
-    .stats__heading {
-      font-family: var(--serif); font-style: italic;
-      font-size: clamp(1.5rem, 3vw, 2.5rem);
-      font-weight: 400; line-height: 1.25;
-      margin-bottom: 1.5rem;
-    }
-    .stats__text {
-      font-size: 0.95rem; line-height: 1.75;
-      color: var(--text-muted);
-      max-width: 480px;
-    }
-    .stats__grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 2.5rem;
-    }
-    .stat__number {
-      font-family: var(--serif);
-      font-size: clamp(2.5rem, 5vw, 3.5rem);
-      font-weight: 400; line-height: 1;
-      margin-bottom: 0.5rem;
-    }
-    .stat__label {
-      font-size: 0.65rem; font-weight: 600;
-      letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--text-muted);
-    }
-    @media (max-width: 768px) {
-      .stats__inner { grid-template-columns: 1fr; }
-    }
+    /* ===== ARTICLES ===== */
+    .articles{max-width:1400px;margin:0 auto;padding:clamp(5rem,10vh,7rem) clamp(1.25rem,4vw,2.5rem)}
+    .articles__header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:clamp(2rem,4vh,3rem)}
+    .articles__h{font-family:var(--serif);font-size:clamp(1.5rem,3vw,2.25rem);font-weight:400}
+    .articles__more{font-size:.65rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);transition:color .3s}
+    .articles__more:hover{color:var(--text)}
+    .articles__grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem}
+    .acard{display:block}
+    .acard__img-wrap{overflow:hidden;margin-bottom:.8rem}
+    .acard__img{width:100%;aspect-ratio:16/10;object-fit:cover;transition:transform .6s var(--ease)}
+    .acard:hover .acard__img{transform:scale(1.03)}
+    .acard__tag{font-size:.55rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.3rem}
+    .acard__title{font-size:.85rem;font-weight:600;line-height:1.4}
+    @media(max-width:768px){.articles__grid{grid-template-columns:1fr}}
 
-    /* ============ PROPERTY GRID ============ */
-    .properties {
-      padding: clamp(5rem, 10vh, 8rem) clamp(1.25rem, 4vw, 3rem);
-      max-width: 1400px; margin: 0 auto;
-    }
-    .properties__header {
-      display: flex; justify-content: space-between; align-items: flex-end;
-      margin-bottom: clamp(2rem, 4vw, 3rem);
-      flex-wrap: wrap; gap: 1rem;
-    }
-    .properties__heading {
-      font-family: var(--serif); font-style: italic;
-      font-size: clamp(1.75rem, 3.5vw, 2.75rem);
-      font-weight: 400;
-    }
-    .properties__viewall {
-      font-size: 0.7rem; font-weight: 600;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      display: inline-flex; align-items: center; gap: 0.75rem;
-      transition: gap 0.3s;
-    }
-    .properties__viewall:hover { gap: 1rem; }
-    .properties__grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
-    }
-    .prop-card { position: relative; }
-    .prop-card__img-wrap {
-      position: relative; overflow: hidden;
-      margin-bottom: 1rem;
-    }
-    .prop-card__img {
-      width: 100%; aspect-ratio: 4/3; object-fit: cover;
-      transition: transform 0.6s var(--ease);
-    }
-    .prop-card:hover .prop-card__img { transform: scale(1.03); }
-    .prop-card__specs {
-      position: absolute; top: 0.75rem; left: 0.75rem;
-      display: flex; gap: 0.4rem;
-    }
-    .prop-card__spec {
-      background: rgba(255,255,255,0.9);
-      padding: 0.25rem 0.5rem;
-      font-size: 0.6rem; font-weight: 600;
-      letter-spacing: 0.08em;
-    }
-    .prop-card__address {
-      font-size: 0.7rem; font-weight: 600;
-      letter-spacing: 0.15em; text-transform: uppercase;
-      margin-bottom: 0.2rem;
-    }
-    .prop-card__suburb {
-      font-size: 0.65rem; font-weight: 400;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--text-muted);
-    }
-    @media (max-width: 1024px) { .properties__grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 480px) { .properties__grid { grid-template-columns: 1fr; } }
+    /* ===== DISCLAIMER ===== */
+    .discl{padding:2rem clamp(1.25rem,4vw,2.5rem);max-width:1400px;margin:0 auto}
+    .discl__h{font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:.5rem}
+    .discl__text{font-size:.7rem;line-height:1.7;color:var(--muted)}
 
-    /* ============ MARKETING / DIGITAL FIRST ============ */
-    .marketing {
-      position: relative;
-      height: 80vh; min-height: 500px;
-      overflow: hidden;
-      display: flex; align-items: center;
-    }
-    .marketing__img {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%; object-fit: cover;
-      filter: brightness(0.5);
-    }
-    .marketing__content {
-      position: relative; z-index: 1;
-      padding: clamp(2rem, 6vw, 5rem) clamp(1.25rem, 4vw, 3rem);
-      color: var(--text-light);
-      max-width: 700px;
-    }
-    .marketing__label {
-      font-size: 0.7rem; font-weight: 600;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      color: rgba(255,255,255,0.6);
-      margin-bottom: 1.5rem;
-    }
-    .marketing__heading {
-      font-family: var(--serif); font-style: italic;
-      font-size: clamp(1.75rem, 3.5vw, 3rem);
-      font-weight: 400; line-height: 1.2;
-      margin-bottom: 1.5rem;
-    }
-    .marketing__text {
-      font-size: 0.95rem; line-height: 1.75;
-      color: rgba(255,255,255,0.7);
-      max-width: 520px;
-    }
+    /* ===== NEWSLETTER ===== */
+    .nl{padding:clamp(3rem,6vh,5rem) clamp(1.25rem,4vw,2.5rem);border-top:1px solid var(--border)}
+    .nl__inner{max-width:600px;margin:0 auto;text-align:center}
+    .nl__h{font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.3rem}
+    .nl__sub{font-size:.85rem;color:var(--muted);margin-bottom:.15rem}
+    .nl__sub2{font-size:.85rem;color:var(--muted);margin-bottom:.15rem}
+    .nl__sub3{font-size:.85rem;color:var(--muted);margin-bottom:1.5rem}
+    .nl__form{display:flex;gap:0;flex-wrap:wrap}
+    .nl__input{flex:1;min-width:160px;padding:.75rem 1rem;border:1px solid var(--border);border-right:none;background:transparent;font-size:.8rem;outline:none}
+    .nl__input:focus{border-color:var(--text)}
+    .nl__input::placeholder{color:var(--subtle)}
+    .nl__row{display:flex;gap:0;width:100%}
+    .nl__btn{padding:.75rem 1.5rem;background:var(--dark);color:#fff;font-size:.6rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;border:none;transition:opacity .3s;white-space:nowrap}
+    .nl__btn:hover{opacity:.8}
 
-    /* ============ TESTIMONIALS ============ */
-    .testimonials {
-      padding: clamp(5rem, 10vh, 8rem) clamp(1.25rem, 4vw, 3rem);
-      max-width: 900px; margin: 0 auto;
-      text-align: center;
-    }
-    .testimonials__label {
-      font-size: 0.7rem; font-weight: 600;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 2rem;
-    }
-    .testimonial { display: none; }
-    .testimonial--active { display: block; }
-    .testimonial__quote {
-      font-family: var(--serif); font-style: italic;
-      font-size: clamp(1.25rem, 2.5vw, 1.75rem);
-      font-weight: 400; line-height: 1.5;
-      margin-bottom: 1.5rem;
-    }
-    .testimonial__author {
-      font-size: 0.7rem; font-weight: 600;
-      letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--text-muted);
-    }
-    .testimonials__dots {
-      display: flex; gap: 0.5rem; justify-content: center;
-      margin-top: 2rem;
-    }
-    .testimonials__dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--border);
-      transition: background 0.3s;
-    }
-    .testimonials__dot--active { background: var(--text); }
+    /* ===== FOOTER ===== */
+    .footer{background:var(--dark);color:#fff;position:relative;overflow:hidden}
+    .footer__hero{position:relative;min-height:55vh;overflow:hidden;display:flex;align-items:flex-end}
+    .footer__hero-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.35)}
+    .footer__hero-content{position:relative;z-index:1;padding:clamp(2rem,4vw,3rem) clamp(1.25rem,4vw,2.5rem);width:100%}
+    .footer__logo{font-family:var(--sans);font-weight:800;font-size:clamp(1.5rem,3vw,2.5rem);letter-spacing:.22em;text-transform:uppercase;margin-bottom:2rem}
+    .footer__cols{display:flex;gap:clamp(3rem,6vw,5rem);flex-wrap:wrap}
+    .footer__col-title{font-size:.55rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;margin-bottom:.6rem;color:rgba(255,255,255,.5)}
+    .footer__col-link{display:block;font-size:.8rem;font-weight:300;color:rgba(255,255,255,.55);padding:.15rem 0;transition:color .3s}
+    .footer__col-link:hover{color:#fff}
+    .footer__bottom{padding:1.5rem clamp(1.25rem,4vw,2.5rem);border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+    .footer__monogram{width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.65rem;letter-spacing:.05em}
+    .footer__blinks{display:flex;gap:clamp(1rem,2vw,2rem);flex-wrap:wrap}
+    .footer__blink{font-size:.55rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.4);transition:color .3s}
+    .footer__blink:hover{color:#fff}
+    .footer__copy{font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.25)}
 
-    /* ============ TEAM ============ */
-    .team {
-      background: var(--bg-light);
-      padding: clamp(5rem, 10vh, 8rem) clamp(1.25rem, 4vw, 3rem);
-    }
-    .team__inner {
-      max-width: 1400px; margin: 0 auto;
-    }
-    .team__header {
-      display: flex; justify-content: space-between; align-items: flex-end;
-      margin-bottom: clamp(2rem, 4vw, 3rem);
-      flex-wrap: wrap; gap: 1rem;
-    }
-    .team__heading {
-      font-family: var(--serif); font-style: italic;
-      font-size: clamp(1.75rem, 3.5vw, 2.75rem);
-      font-weight: 400;
-    }
-    .team__subline {
-      font-size: 0.95rem; color: var(--text-muted);
-      max-width: 420px; line-height: 1.6;
-    }
-    .team__grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
-    }
-    .team-card {}
-    .team-card__img-wrap { overflow: hidden; margin-bottom: 1rem; }
-    .team-card__img {
-      width: 100%; aspect-ratio: 3/4; object-fit: cover;
-      filter: grayscale(20%);
-      transition: transform 0.6s var(--ease), filter 0.4s;
-    }
-    .team-card:hover .team-card__img { transform: scale(1.03); filter: grayscale(0); }
-    .team-card__name {
-      font-size: 0.8rem; font-weight: 600;
-      letter-spacing: 0.08em; text-transform: uppercase;
-      margin-bottom: 0.15rem;
-    }
-    .team-card__role {
-      font-size: 0.65rem; font-weight: 400;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--text-muted);
-    }
-    @media (max-width: 1024px) { .team__grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 480px) { .team__grid { grid-template-columns: 1fr 1fr; } }
-
-    /* ============ CTA / SELL WITH US ============ */
-    .cta-section {
-      display: grid; grid-template-columns: 1fr 1fr;
-      min-height: 600px;
-    }
-    .cta-section__img-wrap { overflow: hidden; }
-    .cta-section__img { width: 100%; height: 100%; object-fit: cover; }
-    .cta-section__content {
-      display: flex; flex-direction: column; justify-content: center;
-      padding: clamp(3rem, 6vw, 5rem);
-      background: var(--bg);
-    }
-    .cta-section__label {
-      font-size: 0.7rem; font-weight: 600;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 1.5rem;
-    }
-    .cta-section__heading {
-      font-family: var(--serif); font-style: italic;
-      font-size: clamp(1.75rem, 3.5vw, 2.75rem);
-      font-weight: 400; line-height: 1.2;
-      margin-bottom: 1.5rem;
-    }
-    .cta-section__text {
-      font-size: 0.95rem; line-height: 1.75;
-      color: var(--text-muted);
-      max-width: 440px;
-      margin-bottom: 2rem;
-    }
-    .cta-section__btn {
-      display: inline-flex; align-items: center; gap: 0.75rem;
-      font-size: 0.7rem; font-weight: 600;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      padding: 0.9rem 2rem;
-      background: var(--accent); color: var(--text-light);
-      transition: opacity 0.3s;
-    }
-    .cta-section__btn:hover { opacity: 0.8; }
-    @media (max-width: 768px) {
-      .cta-section { grid-template-columns: 1fr; }
-      .cta-section__img-wrap { height: 50vw; max-height: 400px; }
-    }
-
-    /* ============ NEWSLETTER ============ */
-    .newsletter {
-      padding: clamp(4rem, 8vh, 6rem) clamp(1.25rem, 4vw, 3rem);
-      text-align: center;
-      border-top: 1px solid var(--border);
-    }
-    .newsletter__heading {
-      font-family: var(--serif); font-style: italic;
-      font-size: clamp(1.25rem, 2.5vw, 1.75rem);
-      font-weight: 400;
-      margin-bottom: 0.5rem;
-    }
-    .newsletter__sub {
-      font-size: 0.85rem; color: var(--text-muted);
-      margin-bottom: 2rem;
-    }
-    .newsletter__form {
-      display: flex; gap: 0; max-width: 520px; margin: 0 auto;
-    }
-    .newsletter__input {
-      flex: 1; padding: 0.85rem 1rem;
-      border: 1.5px solid var(--border);
-      background: transparent;
-      font-size: 0.85rem; color: var(--text);
-      outline: none;
-    }
-    .newsletter__input:focus { border-color: var(--text); }
-    .newsletter__input::placeholder { color: var(--text-subtle); }
-    .newsletter__btn {
-      padding: 0.85rem 1.75rem;
-      background: var(--accent); color: var(--text-light);
-      font-size: 0.65rem; font-weight: 600;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      border: none; transition: opacity 0.3s;
-    }
-    .newsletter__btn:hover { opacity: 0.8; }
-    @media (max-width: 480px) {
-      .newsletter__form { flex-direction: column; }
-    }
-
-    /* ============ FOOTER ============ */
-    .footer {
-      background: var(--bg-dark); color: var(--text-light);
-      position: relative; overflow: hidden;
-    }
-    .footer__hero {
-      position: relative;
-      height: 50vh; min-height: 350px;
-      overflow: hidden;
-    }
-    .footer__hero-img {
-      width: 100%; height: 100%; object-fit: cover;
-      filter: brightness(0.4);
-    }
-    .footer__hero-content {
-      position: absolute; inset: 0;
-      display: flex; flex-direction: column;
-      align-items: flex-start; justify-content: flex-end;
-      padding: clamp(2rem, 4vw, 3rem);
-    }
-    .footer__hero-logo {
-      font-weight: 700; font-size: clamp(1.5rem, 3vw, 2.5rem);
-      letter-spacing: 0.18em; text-transform: uppercase;
-      margin-bottom: 1rem;
-    }
-    .footer__offices {
-      display: flex; gap: clamp(3rem, 6vw, 5rem);
-      flex-wrap: wrap;
-    }
-    .footer__office-group {}
-    .footer__office-title {
-      font-size: 0.65rem; font-weight: 600;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      margin-bottom: 0.75rem;
-    }
-    .footer__office-link {
-      display: block;
-      font-size: 0.8rem; font-weight: 300;
-      letter-spacing: 0.05em;
-      padding: 0.2rem 0;
-      color: rgba(255,255,255,0.6);
-      transition: color 0.3s;
-    }
-    .footer__office-link:hover { color: #fff; }
-    .footer__bottom {
-      padding: clamp(2rem, 4vw, 3rem);
-      border-top: 1px solid var(--border-dark);
-      display: flex; justify-content: space-between;
-      flex-wrap: wrap; gap: 1rem;
-      align-items: center;
-    }
-    .footer__bottom-logo {
-      width: 40px; height: 40px; border-radius: 50%;
-      border: 1.5px solid rgba(255,255,255,0.3);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 700; font-size: 0.7rem;
-      letter-spacing: 0.05em;
-    }
-    .footer__bottom-links {
-      display: flex; gap: 2rem; flex-wrap: wrap;
-    }
-    .footer__bottom-link {
-      font-size: 0.65rem; font-weight: 600;
-      letter-spacing: 0.15em; text-transform: uppercase;
-      color: rgba(255,255,255,0.5);
-      transition: color 0.3s;
-    }
-    .footer__bottom-link:hover { color: #fff; }
-    .footer__copy {
-      font-size: 0.6rem; letter-spacing: 0.08em;
-      color: rgba(255,255,255,0.35);
-      text-transform: uppercase;
-    }
-
-    /* ============ ANIMATIONS ============ */
-    .fade-up {
-      opacity: 0; transform: translateY(30px);
-      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
-    }
-    .fade-up--visible { opacity: 1; transform: translateY(0); }
-    .fade-up-d1 { transition-delay: 0.1s; }
-    .fade-up-d2 { transition-delay: 0.2s; }
-    .fade-up-d3 { transition-delay: 0.3s; }
-
-    @media (prefers-reduced-motion: reduce) {
-      .fade-up { opacity: 1; transform: none; transition: none; }
-      html { scroll-behavior: auto; }
-    }
+    /* ===== ANIMATIONS ===== */
+    .fup{opacity:0;transform:translateY(25px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+    .fup--v{opacity:1;transform:translateY(0)}
+    .fup-d1{transition-delay:.1s}.fup-d2{transition-delay:.2s}.fup-d3{transition-delay:.3s}.fup-d4{transition-delay:.4s}
+    @media(prefers-reduced-motion:reduce){.fup{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
   </style>
 </head>
 <body>
-  <a href="#main" class="sr-only">Skip to content</a>
 
-  <!-- NAV -->
-  <nav class="nav nav--hero" id="nav">
-    <a href="#" class="nav__logo">Eastell&nbsp;&amp;&nbsp;Co</a>
-    <ul class="nav__links">
-      <li><a href="#properties" class="nav__link">Property</a></li>
-      <li><a href="#sell" class="nav__link">Sell With Us</a></li>
-      <li><a href="#team" class="nav__link">Our Team</a></li>
-      <li><a href="#contact" class="nav__link">Contact</a></li>
-    </ul>
-    <button class="nav__hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
-
-  <!-- Mobile Menu -->
-  <div class="mob-menu" id="mobMenu" aria-hidden="true">
-    <a href="#properties" class="mob-menu__link">Property</a>
-    <a href="#sell" class="mob-menu__link">Sell With Us</a>
-    <a href="#team" class="mob-menu__link">Our Team</a>
-    <a href="#contact" class="mob-menu__link">Contact</a>
-    <a href="tel:+61422234460" class="mob-menu__link">0422 234 460</a>
+<!-- NAV -->
+<nav class="nav nav--hero" id="nav">
+  <a href="#" class="nav__logo">Eastell&nbsp;&amp;&nbsp;Co</a>
+  <div class="nav__right">
+    <a href="#properties" class="nav__link">Property</a>
+    <a href="#sell" class="nav__link">Sell With Us</a>
+    <a href="#contact" class="nav__link">Contact</a>
+    <button class="nav__menu-btn" id="menuBtn" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
+</nav>
 
-  <main id="main">
-    <!-- HERO -->
-    <section class="hero">
-      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80&auto=format" alt="Sunshine Coast beachfront aerial at golden hour" class="hero__img" loading="eager" fetchpriority="high">
-      <div class="hero__overlay"></div>
-      <div class="hero__content">
-        <h1 class="hero__tagline fade-up">We always go the extra mile.</h1>
-        <a href="#sell" class="hero__cta fade-up fade-up-d1">
-          Request an Appraisal <span class="hero__cta-arrow">&#8594;</span>
-        </a>
-      </div>
-    </section>
+<!-- FS MENU -->
+<div class="fs-menu" id="fsMenu" aria-hidden="true">
+  <div class="fs-menu__top">
+    <a href="#properties" class="fs-menu__link">Property</a>
+    <a href="#sell" class="fs-menu__link">Sell With Us</a>
+    <a href="#team" class="fs-menu__link">Our Team</a>
+    <a href="#contact" class="fs-menu__link">Contact</a>
+  </div>
+  <div class="fs-menu__bottom">
+    <a href="tel:+61422234460" class="fs-menu__small">0422 234 460</a>
+    <a href="mailto:clinton@eastellandco.com" class="fs-menu__small">clinton@eastellandco.com</a>
+    <span class="fs-menu__small">Sunshine Coast, QLD</span>
+  </div>
+</div>
 
-    <!-- INTRO -->
-    <section class="intro">
-      <div>
-        <p class="intro__label fade-up">The Deal</p>
-        <h2 class="intro__headline fade-up fade-up-d1">Sunshine Coast real estate, done properly.</h2>
-        <p class="intro__text fade-up fade-up-d2">Welcome to Eastell and Co, a prestige real estate agency built on the Sunshine Coast to challenge the ordinary and deliver outstanding results for every client. Our modern approach emphasises lifestyle and genuine connection &mdash; ensuring every interaction is professional, personable, and focused on the result that matters to you.</p>
-        <a href="#about" class="intro__link fade-up fade-up-d3">Our Story <span>&#8594;</span></a>
-      </div>
-      <div class="intro__img-wrap fade-up">
-        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=900&q=80&auto=format" alt="Luxury Sunshine Coast home exterior" class="intro__img">
-      </div>
-    </section>
+<main>
 
-    <!-- PRIDE STATEMENT -->
-    <section class="pride">
-      <h2 class="pride__heading fade-up">We pride ourselves on exceptional communication, market knowledge, and an unwavering commitment to going above and beyond for our clients.</h2>
-    </section>
+<!-- HERO -->
+<section class="hero">
+  <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80&auto=format" alt="Sunshine Coast coastline at golden hour" class="hero__img" loading="eager" fetchpriority="high">
+  <div class="hero__grad"></div>
+  <div class="hero__content">
+    <h1 class="hero__h1">Going the extra mile since day one.</h1>
+    <p class="hero__sub">We've set a new standard for how real estate is done on the Sunshine Coast.</p>
+  </div>
+</section>
 
-    <!-- CATEGORY CAROUSEL -->
-    <section class="categories">
-      <div class="categories__track">
-        <a href="#properties" class="cat-card">
-          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80&auto=format" alt="Property" class="cat-card__img">
-          <div class="cat-card__label">Property</div>
-        </a>
-        <a href="#sell" class="cat-card">
-          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80&auto=format" alt="Sell With Us" class="cat-card__img">
-          <div class="cat-card__label">Sell With Us</div>
-        </a>
-        <a href="#team" class="cat-card">
-          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&q=80&auto=format" alt="People" class="cat-card__img">
-          <div class="cat-card__label">Our Team</div>
-        </a>
-        <a href="#contact" class="cat-card">
-          <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=80&auto=format" alt="Styling" class="cat-card__img">
-          <div class="cat-card__label">Styling</div>
-        </a>
-        <a href="#contact" class="cat-card">
-          <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&q=80&auto=format" alt="Aerial" class="cat-card__img">
-          <div class="cat-card__label">Aerial &amp; Video</div>
-        </a>
-      </div>
-    </section>
+<!-- INTRO -->
+<section class="intro">
+  <div>
+    <div class="intro__labels fup">
+      <span class="intro__label">The Deal</span>
+      <span class="intro__label">Sunshine Coast</span>
+    </div>
+    <p class="intro__text fup fup-d1">Welcome to Eastell and Co, a prestige real estate team built on the Sunshine Coast to challenge the ordinary. Since opening our doors, we've transformed the way property is marketed across the coast &mdash; delivering outstanding results through genuine connection, exceptional communication, and a modern approach that our clients notice from day one.</p>
+    <a href="#about" class="intro__link fup fup-d2">Our Story <span>&#8594;</span></a>
+  </div>
+  <div class="intro__img-wrap fup">
+    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=700&q=80&auto=format" alt="Clinton Eastell" class="intro__img" style="aspect-ratio:3/4">
+  </div>
+</section>
 
-    <!-- RESULTS CAROUSEL -->
-    <section class="results" id="results">
-      <div class="results__slide results__slide--active" data-index="0">
-        <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=80&auto=format" alt="36 Belmore Terrace, Sunshine Beach" class="results__img">
-        <div class="results__overlay"></div>
-        <div class="results__info">
-          <div>
-            <div class="results__address">36 Belmore Terrace</div>
-            <div class="results__suburb">Sunshine Beach</div>
-          </div>
-          <div class="results__badges">
-            <span class="results__badge">Sold</span>
-            <span class="results__badge">Record Result</span>
-          </div>
-        </div>
-        <div class="results__counter-wrap">1 of 5</div>
-        <div class="results__nav">
-          <button class="results__nav-btn" id="resultsPrev">&#8592; Prev</button>
-          <button class="results__nav-btn" id="resultsNext">Next &#8594;</button>
-        </div>
-      </div>
-      <div class="results__slide" data-index="1">
-        <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80&auto=format" alt="8 Pelican Street, Peregian Beach" class="results__img">
-        <div class="results__overlay"></div>
-        <div class="results__info">
-          <div>
-            <div class="results__address">8 Pelican Street</div>
-            <div class="results__suburb">Peregian Beach</div>
-          </div>
-          <div class="results__badges">
-            <span class="results__badge">Sold</span>
-            <span class="results__badge">7 Bidders</span>
-          </div>
-        </div>
-        <div class="results__counter-wrap">2 of 5</div>
-        <div class="results__nav">
-          <button class="results__nav-btn results__nav-btn--prev">&#8592; Prev</button>
-          <button class="results__nav-btn results__nav-btn--next">Next &#8594;</button>
-        </div>
-      </div>
-      <div class="results__slide" data-index="2">
-        <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1920&q=80&auto=format" alt="55 Saltwater Way, Mount Coolum" class="results__img">
-        <div class="results__overlay"></div>
-        <div class="results__info">
-          <div>
-            <div class="results__address">55 Saltwater Way</div>
-            <div class="results__suburb">Mount Coolum</div>
-          </div>
-          <div class="results__badges">
-            <span class="results__badge">Sold</span>
-            <span class="results__badge">Above Expectation</span>
-          </div>
-        </div>
-        <div class="results__counter-wrap">3 of 5</div>
-        <div class="results__nav">
-          <button class="results__nav-btn results__nav-btn--prev">&#8592; Prev</button>
-          <button class="results__nav-btn results__nav-btn--next">Next &#8594;</button>
-        </div>
-      </div>
-      <div class="results__slide" data-index="3">
-        <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1920&q=80&auto=format" alt="204 David Low Way, Peregian Beach" class="results__img">
-        <div class="results__overlay"></div>
-        <div class="results__info">
-          <div>
-            <div class="results__address">204 David Low Way</div>
-            <div class="results__suburb">Peregian Beach</div>
-          </div>
-          <div class="results__badges">
-            <span class="results__badge">Sold</span>
-          </div>
-        </div>
-        <div class="results__counter-wrap">4 of 5</div>
-        <div class="results__nav">
-          <button class="results__nav-btn results__nav-btn--prev">&#8592; Prev</button>
-          <button class="results__nav-btn results__nav-btn--next">Next &#8594;</button>
-        </div>
-      </div>
-      <div class="results__slide" data-index="4">
-        <img src="https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=1920&q=80&auto=format" alt="22 Bedarra Circuit, Maroochydore" class="results__img">
-        <div class="results__overlay"></div>
-        <div class="results__info">
-          <div>
-            <div class="results__address">22 Bedarra Circuit</div>
-            <div class="results__suburb">Maroochydore</div>
-          </div>
-          <div class="results__badges">
-            <span class="results__badge">Sold</span>
-            <span class="results__badge">First Week</span>
-          </div>
-        </div>
-        <div class="results__counter-wrap">5 of 5</div>
-        <div class="results__nav">
-          <button class="results__nav-btn results__nav-btn--prev">&#8592; Prev</button>
-          <button class="results__nav-btn results__nav-btn--next">Next &#8594;</button>
-        </div>
-      </div>
-    </section>
+<!-- PRIDE -->
+<section class="pride">
+  <h2 class="pride__h fup">We pride ourselves on exceptional communication, local market knowledge, and an unwavering commitment to going above and beyond for every client.</h2>
+</section>
 
-    <!-- STATS -->
-    <section class="stats" id="about">
-      <div class="stats__inner">
+<!-- HORIZONTAL CARDS -->
+<section class="hcards">
+  <div class="hcards__track">
+    <a href="#properties" class="hcard"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80&auto=format" alt="Property" class="hcard__img"><div class="hcard__label">Property</div></a>
+    <a href="#sell" class="hcard"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80&auto=format" alt="Sell with us" class="hcard__img"><div class="hcard__label">Sell With Us</div></a>
+    <a href="#team" class="hcard"><img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&q=80&auto=format" alt="People" class="hcard__img"><div class="hcard__label">People</div></a>
+    <a href="#" class="hcard"><img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=80&auto=format" alt="Styling" class="hcard__img"><div class="hcard__label">Styling</div></a>
+    <a href="#" class="hcard"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&q=80&auto=format" alt="Aerial" class="hcard__img"><div class="hcard__label">Aerial &amp; Video</div></a>
+  </div>
+</section>
+
+<!-- RESULTS SLIDER -->
+<section class="rslider" id="results">
+  <div class="rslide rslide--active" data-i="0">
+    <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1920&q=80&auto=format" alt="36 Belmore Terrace, Sunshine Beach" class="rslide__img">
+    <div class="rslide__grad"></div>
+    <div class="rslide__info"><div class="rslide__address">36 Belmore Terrace</div><div class="rslide__suburb">Sunshine Beach</div></div>
+    <div class="rslide__badges"><span class="rslide__badge">Sold</span><span class="rslide__badge">Record Result</span></div>
+  </div>
+  <div class="rslide" data-i="1">
+    <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80&auto=format" alt="8 Pelican Street, Peregian Beach" class="rslide__img">
+    <div class="rslide__grad"></div>
+    <div class="rslide__info"><div class="rslide__address">8 Pelican Street</div><div class="rslide__suburb">Peregian Beach</div></div>
+    <div class="rslide__badges"><span class="rslide__badge">Sold</span><span class="rslide__badge">Auction</span></div>
+  </div>
+  <div class="rslide" data-i="2">
+    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1920&q=80&auto=format" alt="55 Saltwater Way, Mount Coolum" class="rslide__img">
+    <div class="rslide__grad"></div>
+    <div class="rslide__info"><div class="rslide__address">55 Saltwater Way</div><div class="rslide__suburb">Mount Coolum</div></div>
+    <div class="rslide__badges"><span class="rslide__badge">Sold</span></div>
+  </div>
+  <div class="rslide" data-i="3">
+    <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1920&q=80&auto=format" alt="204 David Low Way, Peregian Beach" class="rslide__img">
+    <div class="rslide__grad"></div>
+    <div class="rslide__info"><div class="rslide__address">204 David Low Way</div><div class="rslide__suburb">Peregian Beach</div></div>
+    <div class="rslide__badges"><span class="rslide__badge">Sold</span><span class="rslide__badge">Record Result</span></div>
+  </div>
+  <div class="rslide" data-i="4">
+    <img src="https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=1920&q=80&auto=format" alt="22 Bedarra Circuit, Maroochydore" class="rslide__img">
+    <div class="rslide__grad"></div>
+    <div class="rslide__info"><div class="rslide__address">22 Bedarra Circuit</div><div class="rslide__suburb">Maroochydore</div></div>
+    <div class="rslide__badges"><span class="rslide__badge">Sold</span></div>
+  </div>
+  <div class="rslider__counter" id="rCounter">1 of 5</div>
+  <div class="rslider__nav">
+    <button class="rslider__btn" id="rPrev">&#8592;&nbsp;&nbsp;Prev</button>
+    <button class="rslider__btn" id="rNext">Next&nbsp;&nbsp;&#8594;</button>
+  </div>
+</section>
+
+<!-- GLOBAL / OFFICES -->
+<section class="global" id="about">
+  <div>
+    <h2 class="global__h fup">A local team with a coast-wide reach.</h2>
+    <p class="global__text fup fup-d1">With deep roots across the Sunshine Coast's most sought-after pockets, our team connects buyers and sellers from Noosa to Maroochydore. We know the streets, the neighbours, the market &mdash; and we use that knowledge to deliver results others can't.</p>
+  </div>
+  <div class="global__offices fup fup-d2">
+    <div>
+      <div class="global__office-title">Sunshine Coast</div>
+      <a href="#" class="global__office-item">Coolum Beach</a>
+      <a href="#" class="global__office-item">Peregian Beach</a>
+      <a href="#" class="global__office-item">Sunshine Beach</a>
+      <a href="#" class="global__office-item">Mount Coolum</a>
+      <a href="#" class="global__office-item">Noosa Heads</a>
+    </div>
+    <div>
+      <div class="global__office-title">Greater Region</div>
+      <a href="#" class="global__office-item">Maroochydore</a>
+      <a href="#" class="global__office-item">Marcoola</a>
+      <a href="#" class="global__office-item">Castaways Beach</a>
+      <a href="#" class="global__office-item">Rosemount</a>
+      <a href="#" class="global__office-item">Bokarina</a>
+    </div>
+  </div>
+</section>
+
+<!-- PROPERTY GRID -->
+<section class="pgrid" id="properties">
+  <div class="pgrid__header">
+    <h2 class="pgrid__h fup">Property done properly.</h2>
+  </div>
+  <div class="pgrid__tabs fup">
+    <button class="pgrid__tab pgrid__tab--active">For Sale</button>
+    <button class="pgrid__tab">Sold</button>
+    <button class="pgrid__tab">Rental</button>
+  </div>
+  <div class="pgrid__featured fup">Featured</div>
+  <div class="pgrid__grid">
+    <a href="#" class="pcard fup">
+      <div class="pcard__img-wrap">
+        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=700&q=80&auto=format" alt="55 Saltwater Way" class="pcard__img">
+        <div class="pcard__specs"><span class="pcard__spec">4 Bed</span><span class="pcard__spec">2 Bath</span><span class="pcard__spec">2 Car</span></div>
+      </div>
+      <div class="pcard__address">55 Saltwater Way</div>
+      <div class="pcard__suburb">Mount Coolum</div>
+    </a>
+    <a href="#" class="pcard fup fup-d1">
+      <div class="pcard__img-wrap">
+        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=700&q=80&auto=format" alt="28 Gannet Street" class="pcard__img">
+        <div class="pcard__specs"><span class="pcard__spec">4 Bed</span><span class="pcard__spec">2 Bath</span></div>
+      </div>
+      <div class="pcard__address">28 Gannet Street</div>
+      <div class="pcard__suburb">Peregian Beach</div>
+    </a>
+    <a href="#" class="pcard fup fup-d2">
+      <div class="pcard__img-wrap">
+        <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=700&q=80&auto=format" alt="36 Belmore Terrace" class="pcard__img">
+        <div class="pcard__specs"><span class="pcard__spec">4 Bed</span><span class="pcard__spec">2 Bath</span><span class="pcard__spec">1 Car</span></div>
+      </div>
+      <div class="pcard__address">36 Belmore Terrace</div>
+      <div class="pcard__suburb">Sunshine Beach</div>
+    </a>
+    <a href="#" class="pcard fup fup-d3">
+      <div class="pcard__img-wrap">
+        <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=700&q=80&auto=format" alt="204 David Low Way" class="pcard__img">
+        <div class="pcard__specs"><span class="pcard__spec">3 Bed</span><span class="pcard__spec">2 Bath</span><span class="pcard__spec">2 Car</span></div>
+      </div>
+      <div class="pcard__address">204 David Low Way</div>
+      <div class="pcard__suburb">Peregian Beach</div>
+    </a>
+  </div>
+  <a href="#" class="pgrid__viewall fup">View All <span>&#8594;</span></a>
+</section>
+
+<!-- DIGITAL FIRST -->
+<section class="digfirst">
+  <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&q=80&auto=format" alt="Marketing strategy" class="digfirst__img">
+  <div class="digfirst__content">
+    <p class="digfirst__label fup">Digital First</p>
+    <h2 class="digfirst__h fup fup-d1">We've set a new standard for property marketing &mdash; maximising the reach and engagement of every home we represent.</h2>
+    <p class="digfirst__text fup fup-d2">Always at the forefront. We're not afraid to push boundaries, investing in in-house photography, cinematic video, aerial capture and targeted digital campaigns that make every listing impossible to scroll past.</p>
+  </div>
+</section>
+
+<!-- JOIN -->
+<section class="joinsec" id="sell">
+  <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1920&q=80&auto=format" alt="Sunshine Coast luxury property" class="joinsec__img">
+  <div class="joinsec__grad"></div>
+  <div class="joinsec__content">
+    <p class="joinsec__text fup">Whether you're ready to sell or just exploring your options, our team delivers a transparent, no-obligation appraisal backed by genuine local expertise. We go the extra mile &mdash; it's what we do.</p>
+    <a href="#contact" class="joinsec__btn fup fup-d1">Request Your Free Appraisal <span>&#8594;</span></a>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="advant">
+  <div class="advant__inner">
+    <h2 class="advant__h fup">The Eastell&nbsp;&amp;&nbsp;Co Advantage</h2>
+    <div class="advant__grid">
+      <div class="advant__stat fup"><div class="advant__num">$187M+</div><div class="advant__label">Total Value Sold</div></div>
+      <div class="advant__stat fup fup-d1"><div class="advant__num">9.4</div><div class="advant__label">Avg Days on Market</div></div>
+      <div class="advant__stat fup fup-d2"><div class="advant__num">96%</div><div class="advant__label">Clearance Rate</div></div>
+      <div class="advant__stat fup fup-d3"><div class="advant__num">25+</div><div class="advant__label">Team Members</div></div>
+    </div>
+    <p class="advant__text fup">From a single Sunshine Coast office, Eastell and Co has grown into one of the coast's most trusted prestige agencies &mdash; built on outstanding results, exceptional communication, and a genuine commitment to every client.</p>
+  </div>
+</section>
+
+<!-- PRESS -->
+<section class="press">
+  <h2 class="press__h fup">As Featured In</h2>
+  <div class="press__logos">
+    <span class="press__logo">Domain</span>
+    <span class="press__logo">realestate.com.au</span>
+    <span class="press__logo">Courier Mail</span>
+    <span class="press__logo">Sunshine Coast Daily</span>
+    <span class="press__logo">Nine News</span>
+    <span class="press__logo">RateMyAgent</span>
+    <span class="press__logo">Real Estate Business</span>
+  </div>
+</section>
+
+<!-- ARTICLES -->
+<section class="articles" id="team">
+  <div class="articles__header">
+    <h2 class="articles__h fup">The Latest From Us</h2>
+    <a href="#" class="articles__more fup">More</a>
+  </div>
+  <div class="articles__grid">
+    <a href="#" class="acard fup">
+      <div class="acard__img-wrap"><img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=700&q=80&auto=format" alt="Record Results Q4" class="acard__img"></div>
+      <div class="acard__tag">Results</div>
+      <div class="acard__title">Record Results Across the Sunshine Coast &mdash; Q4 2025 Wrap</div>
+    </a>
+    <a href="#" class="acard fup fup-d1">
+      <div class="acard__img-wrap"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=700&q=80&auto=format" alt="Meet Clinton" class="acard__img"></div>
+      <div class="acard__tag">Team</div>
+      <div class="acard__title">Meet Clinton Eastell &mdash; Director &amp; Co-Founder</div>
+    </a>
+    <a href="#" class="acard fup fup-d2">
+      <div class="acard__img-wrap"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&q=80&auto=format" alt="Sunshine Coast Market Update" class="acard__img"></div>
+      <div class="acard__tag">Market Update</div>
+      <div class="acard__title">Sunshine Coast Property Market &mdash; What to Expect in 2026</div>
+    </a>
+  </div>
+</section>
+
+<!-- DISCLAIMER -->
+<section class="discl">
+  <h3 class="discl__h">Disclaimer</h3>
+  <p class="discl__text">The information available on or through this website is intended to provide general information to the public. Although we have taken all reasonable measures to ensure accuracy, we make no warranty, express or implied, nor assume any legal liability for the accuracy, correctness, or completeness of the information provided.</p>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="nl" id="contact">
+  <div class="nl__inner">
+    <h2 class="nl__h fup">The Deal:</h2>
+    <p class="nl__sub fup">The latest listings.</p>
+    <p class="nl__sub2 fup">The biggest results.</p>
+    <p class="nl__sub3 fup">All things Eastell and Co.</p>
+    <form class="nl__form fup" onsubmit="event.preventDefault();this.querySelector('.nl__btn').textContent='SUBSCRIBED';setTimeout(()=>this.querySelector('.nl__btn').textContent='SUBSCRIBE',3000)">
+      <div class="nl__row">
+        <input type="text" class="nl__input" placeholder="First Name" style="border-right:1px solid var(--border)">
+        <input type="text" class="nl__input" placeholder="Last Name">
+      </div>
+      <div class="nl__row" style="margin-top:-1px">
+        <input type="email" class="nl__input" placeholder="Email Address" required style="flex:1">
+        <button type="submit" class="nl__btn">Subscribe</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer__hero">
+    <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80&auto=format" alt="Sunshine Coast" class="footer__hero-img">
+    <div class="footer__hero-content">
+      <div class="footer__logo">Eastell&nbsp;&amp;&nbsp;Co</div>
+      <div class="footer__cols">
         <div>
-          <h2 class="stats__heading fade-up">A team built on trust, delivering results that speak for themselves.</h2>
-          <p class="stats__text fade-up fade-up-d1">From beachside homes in Coolum and Peregian to prestige properties along the coast, Eastell and Co brings an unwavering commitment to communication, transparency, and outstanding outcomes. We treat every home as if it were our own.</p>
+          <div class="footer__col-title">Sunshine Coast</div>
+          <a href="#" class="footer__col-link">Coolum Beach</a>
+          <a href="#" class="footer__col-link">Peregian Beach</a>
+          <a href="#" class="footer__col-link">Sunshine Beach</a>
+          <a href="#" class="footer__col-link">Mount Coolum</a>
+          <a href="#" class="footer__col-link">Noosa</a>
         </div>
-        <div class="stats__grid">
-          <div class="fade-up">
-            <div class="stat__number">$187M+</div>
-            <div class="stat__label">Total Value Sold</div>
-          </div>
-          <div class="fade-up fade-up-d1">
-            <div class="stat__number">9.4</div>
-            <div class="stat__label">Avg Days on Market</div>
-          </div>
-          <div class="fade-up fade-up-d2">
-            <div class="stat__number">96%</div>
-            <div class="stat__label">Clearance Rate</div>
-          </div>
-          <div class="fade-up fade-up-d3">
-            <div class="stat__number">25+</div>
-            <div class="stat__label">Team Members</div>
-          </div>
+        <div>
+          <div class="footer__col-title">Contact</div>
+          <a href="tel:+61422234460" class="footer__col-link">0422 234 460</a>
+          <a href="tel:+61752937346" class="footer__col-link">(07) 5293 7346</a>
+          <a href="mailto:clinton@eastellandco.com" class="footer__col-link">clinton@eastellandco.com</a>
         </div>
-      </div>
-    </section>
-
-    <!-- PROPERTY GRID -->
-    <section class="properties" id="properties">
-      <div class="properties__header">
-        <h2 class="properties__heading fade-up">Property, done properly.</h2>
-        <a href="#" class="properties__viewall fade-up">View All <span>&#8594;</span></a>
-      </div>
-      <div class="properties__grid">
-        <a href="#" class="prop-card fade-up">
-          <div class="prop-card__img-wrap">
-            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=700&q=80&auto=format" alt="55 Saltwater Way, Mount Coolum" class="prop-card__img">
-            <div class="prop-card__specs">
-              <span class="prop-card__spec">4 Bed</span>
-              <span class="prop-card__spec">2 Bath</span>
-              <span class="prop-card__spec">2 Car</span>
-            </div>
-          </div>
-          <div class="prop-card__address">55 Saltwater Way</div>
-          <div class="prop-card__suburb">Mount Coolum</div>
-        </a>
-        <a href="#" class="prop-card fade-up fade-up-d1">
-          <div class="prop-card__img-wrap">
-            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=700&q=80&auto=format" alt="28 Gannet Street, Peregian Beach" class="prop-card__img">
-            <div class="prop-card__specs">
-              <span class="prop-card__spec">4 Bed</span>
-              <span class="prop-card__spec">2 Bath</span>
-            </div>
-          </div>
-          <div class="prop-card__address">28 Gannet Street</div>
-          <div class="prop-card__suburb">Peregian Beach</div>
-        </a>
-        <a href="#" class="prop-card fade-up fade-up-d2">
-          <div class="prop-card__img-wrap">
-            <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=700&q=80&auto=format" alt="36 Belmore Terrace, Sunshine Beach" class="prop-card__img">
-            <div class="prop-card__specs">
-              <span class="prop-card__spec">4 Bed</span>
-              <span class="prop-card__spec">2 Bath</span>
-              <span class="prop-card__spec">1 Car</span>
-            </div>
-          </div>
-          <div class="prop-card__address">36 Belmore Terrace</div>
-          <div class="prop-card__suburb">Sunshine Beach</div>
-        </a>
-        <a href="#" class="prop-card fade-up fade-up-d3">
-          <div class="prop-card__img-wrap">
-            <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=700&q=80&auto=format" alt="204 David Low Way, Peregian Beach" class="prop-card__img">
-            <div class="prop-card__specs">
-              <span class="prop-card__spec">3 Bed</span>
-              <span class="prop-card__spec">2 Bath</span>
-              <span class="prop-card__spec">2 Car</span>
-            </div>
-          </div>
-          <div class="prop-card__address">204 David Low Way</div>
-          <div class="prop-card__suburb">Peregian Beach</div>
-        </a>
-      </div>
-    </section>
-
-    <!-- MARKETING / DIGITAL FIRST -->
-    <section class="marketing">
-      <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&q=80&auto=format" alt="Digital marketing strategy in action" class="marketing__img">
-      <div class="marketing__content">
-        <p class="marketing__label fade-up">Digital First</p>
-        <h2 class="marketing__heading fade-up fade-up-d1">We've set a new standard for how property is marketed on the Sunshine Coast.</h2>
-        <p class="marketing__text fade-up fade-up-d2">In-house photography, cinematic video, aerial capture, targeted social campaigns, and a digital-first strategy that maximises the reach and engagement of every home we represent. This isn't just a listing. It's a launch.</p>
-      </div>
-    </section>
-
-    <!-- TESTIMONIALS -->
-    <section class="testimonials">
-      <p class="testimonials__label fade-up">What Our Clients Say</p>
-      <div class="testimonial testimonial--active" data-t="0">
-        <p class="testimonial__quote">"The Eastell team were beyond amazing. They juggled both properties with professionalism and unwavering commitment. They covered every detail with such vigour we had nothing but confidence that they would achieve what was promised."</p>
-        <p class="testimonial__author">&mdash; Seller, Sunshine Coast</p>
-      </div>
-      <div class="testimonial" data-t="1">
-        <p class="testimonial__quote">"This is the third time I have used Clinton to sell a property and each time he has achieved a fantastic result for me. His attention to detail and communication is outstanding."</p>
-        <p class="testimonial__author">&mdash; Repeat Seller</p>
-      </div>
-      <div class="testimonial" data-t="2">
-        <p class="testimonial__quote">"Clinton and team are the ultimate professionals and very personable. Would highly recommend Eastell and Co for both buyers or sellers."</p>
-        <p class="testimonial__author">&mdash; Buyer, Sunshine Coast</p>
-      </div>
-      <div class="testimonial" data-t="3">
-        <p class="testimonial__quote">"Eastell and Co made the sale of my house so easy! They are organised, professional and know their stuff. If you are buying or selling give them a ring and you won't be disappointed."</p>
-        <p class="testimonial__author">&mdash; Seller, Coolum Beach</p>
-      </div>
-      <div class="testimonials__dots" id="tDots">
-        <button class="testimonials__dot testimonials__dot--active" data-dot="0" aria-label="Testimonial 1"></button>
-        <button class="testimonials__dot" data-dot="1" aria-label="Testimonial 2"></button>
-        <button class="testimonials__dot" data-dot="2" aria-label="Testimonial 3"></button>
-        <button class="testimonials__dot" data-dot="3" aria-label="Testimonial 4"></button>
-      </div>
-    </section>
-
-    <!-- TEAM -->
-    <section class="team" id="team">
-      <div class="team__inner">
-        <div class="team__header">
-          <h2 class="team__heading fade-up">Meet the team.</h2>
-          <p class="team__subline fade-up">Professional, personable, and committed. It's the reason we continually achieve outstanding results.</p>
-        </div>
-        <div class="team__grid">
-          <div class="team-card fade-up">
-            <div class="team-card__img-wrap"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=500&q=80&auto=format" alt="Clinton Eastell" class="team-card__img"></div>
-            <div class="team-card__name">Clinton Eastell</div>
-            <div class="team-card__role">Director | Co-Founder</div>
-          </div>
-          <div class="team-card fade-up fade-up-d1">
-            <div class="team-card__img-wrap"><img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=500&q=80&auto=format" alt="Ashleigh Eastell" class="team-card__img"></div>
-            <div class="team-card__name">Ashleigh Eastell</div>
-            <div class="team-card__role">Co-Founder</div>
-          </div>
-          <div class="team-card fade-up fade-up-d2">
-            <div class="team-card__img-wrap"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500&q=80&auto=format" alt="Jakson Shearer" class="team-card__img"></div>
-            <div class="team-card__name">Jakson Shearer</div>
-            <div class="team-card__role">Associate Director</div>
-          </div>
-          <div class="team-card fade-up fade-up-d3">
-            <div class="team-card__img-wrap"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&q=80&auto=format" alt="Brodie Rodgers" class="team-card__img"></div>
-            <div class="team-card__name">Brodie Rodgers</div>
-            <div class="team-card__role">Head of Sales | Auctioneer</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- SELL WITH US CTA -->
-    <section class="cta-section" id="sell">
-      <div class="cta-section__img-wrap">
-        <img src="https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=1000&q=80&auto=format" alt="Prestige property interior" class="cta-section__img">
-      </div>
-      <div class="cta-section__content">
-        <p class="cta-section__label fade-up">Sell With Us</p>
-        <h2 class="cta-section__heading fade-up fade-up-d1">Thinking of selling? Let's talk.</h2>
-        <p class="cta-section__text fade-up fade-up-d2">Whether you're ready to list or just exploring your options, our team will provide a comprehensive appraisal with complete transparency. No pressure, no obligation &mdash; just honest advice from people who know this market inside out.</p>
-        <a href="#contact" class="cta-section__btn fade-up fade-up-d3">Request Your Free Appraisal <span>&#8594;</span></a>
-      </div>
-    </section>
-
-    <!-- NEWSLETTER -->
-    <section class="newsletter" id="contact">
-      <h2 class="newsletter__heading fade-up">Stay in the loop.</h2>
-      <p class="newsletter__sub fade-up">The latest listings, the biggest results, all things Eastell and Co.</p>
-      <form class="newsletter__form fade-up" onsubmit="event.preventDefault(); this.querySelector('button').textContent='SUBSCRIBED'; setTimeout(()=>this.querySelector('button').textContent='SUBSCRIBE', 3000);">
-        <input type="email" class="newsletter__input" placeholder="Email Address" required>
-        <button type="submit" class="newsletter__btn">Subscribe</button>
-      </form>
-    </section>
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer__hero">
-      <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=80&auto=format" alt="Sunshine Coast coastline" class="footer__hero-img">
-      <div class="footer__hero-content">
-        <div class="footer__hero-logo">Eastell&nbsp;&amp;&nbsp;Co</div>
-        <div class="footer__offices">
-          <div class="footer__office-group">
-            <div class="footer__office-title">Sunshine Coast</div>
-            <a href="#" class="footer__office-link">Coolum Beach</a>
-            <a href="#" class="footer__office-link">Peregian Beach</a>
-            <a href="#" class="footer__office-link">Sunshine Beach</a>
-            <a href="#" class="footer__office-link">Noosa</a>
-          </div>
-          <div class="footer__office-group">
-            <div class="footer__office-title">Contact</div>
-            <a href="tel:+61422234460" class="footer__office-link">0422 234 460</a>
-            <a href="tel:+61752937346" class="footer__office-link">(07) 5293 7346</a>
-            <a href="mailto:clinton@eastellandco.com" class="footer__office-link">clinton@eastellandco.com</a>
-          </div>
-          <div class="footer__office-group">
-            <div class="footer__office-title">Social</div>
-            <a href="#" class="footer__office-link">Instagram</a>
-            <a href="#" class="footer__office-link">Facebook</a>
-            <a href="#" class="footer__office-link">YouTube</a>
-          </div>
+        <div>
+          <div class="footer__col-title">Social</div>
+          <a href="#" class="footer__col-link">Instagram</a>
+          <a href="#" class="footer__col-link">Facebook</a>
+          <a href="#" class="footer__col-link">YouTube</a>
+          <a href="#" class="footer__col-link">LinkedIn</a>
         </div>
       </div>
     </div>
-    <div class="footer__bottom">
-      <div class="footer__bottom-logo">E</div>
-      <div class="footer__bottom-links">
-        <a href="#" class="footer__bottom-link">Instagram</a>
-        <a href="#" class="footer__bottom-link">Facebook</a>
-        <a href="#" class="footer__bottom-link">Contact</a>
-        <a href="#" class="footer__bottom-link">Privacy &amp; Terms</a>
-      </div>
-      <div class="footer__copy">&copy; Eastell and Co 2026 &middot; Licence No. 12345678 &middot; QLD</div>
+  </div>
+  <div class="footer__bottom">
+    <div class="footer__monogram">E</div>
+    <div class="footer__blinks">
+      <a href="#" class="footer__blink">Instagram</a>
+      <a href="#" class="footer__blink">YouTube</a>
+      <a href="#" class="footer__blink">LinkedIn</a>
+      <a href="#" class="footer__blink">Contact</a>
+      <a href="#" class="footer__blink">Newsletter</a>
+      <a href="#" class="footer__blink">Privacy &amp; Terms</a>
     </div>
-  </footer>
+    <div class="footer__copy">&copy; Eastell and Co 2026 &nbsp;&middot;&nbsp; Licence No. 12345678</div>
+  </div>
+</footer>
 
-  <script>
-    (function() {
-      'use strict';
-      var prefersRM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+<script>
+(function(){
+  'use strict';
+  var rm=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 
-      /* Nav scroll */
-      var nav = document.getElementById('nav');
-      var heroH = window.innerHeight;
-      window.addEventListener('scroll', function() {
-        if (window.scrollY > heroH - 100) {
-          nav.classList.add('nav--scrolled');
-          nav.classList.remove('nav--hero');
-        } else {
-          nav.classList.remove('nav--scrolled');
-          nav.classList.add('nav--hero');
-        }
-      }, { passive: true });
+  /* Nav scroll */
+  var nav=document.getElementById('nav'),hh=window.innerHeight;
+  window.addEventListener('scroll',function(){
+    if(window.scrollY>hh-90){nav.classList.add('nav--scrolled');nav.classList.remove('nav--hero')}
+    else{nav.classList.remove('nav--scrolled');nav.classList.add('nav--hero')}
+  },{passive:true});
 
-      /* Mobile menu */
-      var hamburger = document.getElementById('hamburger');
-      var mobMenu = document.getElementById('mobMenu');
-      hamburger.addEventListener('click', function() {
-        var open = mobMenu.classList.toggle('mob-menu--open');
-        hamburger.classList.toggle('nav__hamburger--active');
-        hamburger.setAttribute('aria-expanded', open);
-        mobMenu.setAttribute('aria-hidden', !open);
-      });
-      mobMenu.querySelectorAll('.mob-menu__link').forEach(function(l) {
-        l.addEventListener('click', function() {
-          mobMenu.classList.remove('mob-menu--open');
-          hamburger.classList.remove('nav__hamburger--active');
-        });
-      });
+  /* Menu */
+  var mb=document.getElementById('menuBtn'),fm=document.getElementById('fsMenu');
+  mb.addEventListener('click',function(){
+    var o=fm.classList.toggle('fs-menu--open');
+    mb.classList.toggle('nav__menu-btn--active');
+    fm.setAttribute('aria-hidden',!o);
+    document.body.style.overflow=o?'hidden':'';
+  });
+  fm.querySelectorAll('.fs-menu__link').forEach(function(l){
+    l.addEventListener('click',function(){
+      fm.classList.remove('fs-menu--open');
+      mb.classList.remove('nav__menu-btn--active');
+      document.body.style.overflow='';
+    });
+  });
 
-      /* Fade-up observer */
-      if (!prefersRM) {
-        var obs = new IntersectionObserver(function(entries) {
-          entries.forEach(function(e) {
-            if (e.isIntersecting) { e.target.classList.add('fade-up--visible'); obs.unobserve(e.target); }
-          });
-        }, { threshold: 0.15 });
-        document.querySelectorAll('.fade-up').forEach(function(el) { obs.observe(el); });
-      }
+  /* Fade up */
+  if(!rm){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('fup--v');io.unobserve(e.target)}});
+    },{threshold:.12});
+    document.querySelectorAll('.fup').forEach(function(el){io.observe(el)});
+  }
 
-      /* Results carousel */
-      var slides = document.querySelectorAll('.results__slide');
-      var currentSlide = 0;
-      function showSlide(n) {
-        slides[currentSlide].classList.remove('results__slide--active');
-        currentSlide = (n + slides.length) % slides.length;
-        slides[currentSlide].classList.add('results__slide--active');
-      }
-      document.querySelector('.results').addEventListener('click', function(e) {
-        var btn = e.target.closest('.results__nav-btn');
-        if (!btn) return;
-        if (btn.textContent.indexOf('Prev') > -1) showSlide(currentSlide - 1);
-        else showSlide(currentSlide + 1);
-      });
+  /* Results slider */
+  var slides=document.querySelectorAll('.rslide'),ci=0,total=slides.length;
+  var cnt=document.getElementById('rCounter');
+  function goSlide(n){
+    slides[ci].classList.remove('rslide--active');
+    ci=(n+total)%total;
+    slides[ci].classList.add('rslide--active');
+    cnt.textContent=(ci+1)+' of '+total;
+  }
+  document.getElementById('rPrev').addEventListener('click',function(){goSlide(ci-1)});
+  document.getElementById('rNext').addEventListener('click',function(){goSlide(ci+1)});
 
-      /* Testimonials */
-      var testimonials = document.querySelectorAll('.testimonial');
-      var dots = document.querySelectorAll('.testimonials__dot');
-      var currentT = 0;
-      function showTest(n) {
-        testimonials[currentT].classList.remove('testimonial--active');
-        dots[currentT].classList.remove('testimonials__dot--active');
-        currentT = (n + testimonials.length) % testimonials.length;
-        testimonials[currentT].classList.add('testimonial--active');
-        dots[currentT].classList.add('testimonials__dot--active');
-      }
-      dots.forEach(function(d) {
-        d.addEventListener('click', function() { showTest(parseInt(d.dataset.dot)); });
-      });
-      setInterval(function() { showTest(currentT + 1); }, 6000);
-    })();
-  </script>
+  /* Tab switching visual */
+  document.querySelectorAll('.pgrid__tab').forEach(function(t){
+    t.addEventListener('click',function(){
+      document.querySelector('.pgrid__tab--active').classList.remove('pgrid__tab--active');
+      t.classList.add('pgrid__tab--active');
+    });
+  });
+})();
+</script>
 </body>
 </html>
